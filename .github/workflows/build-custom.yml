@@ -60,6 +60,10 @@ jobs:
           sed -i "s|applicationId = \"echo.music.iad1tya\"|applicationId = \"$PKG\"|" app/build.gradle.kts
           # targetPackage di shortcut hardcoded, harus sama dengan applicationId
           sed -i "s|android:targetPackage=\"echo.music.iad1tya\"|android:targetPackage=\"$PKG\"|g" app/src/main/res/xml/shortcuts.xml
+          # google-services.json terikat ke paket asli; dengan paket baru plugin
+          # Firebase gagal ("No matching client found"). Tanpa file ini plugin
+          # tidak diterapkan dan Firebase nonaktif (app tetap build & jalan).
+          rm -f app/google-services.json
           grep -n 'applicationId\|namespace' app/build.gradle.kts
           grep -n 'targetPackage' app/src/main/res/xml/shortcuts.xml
 
